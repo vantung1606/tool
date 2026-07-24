@@ -1,0 +1,18 @@
+{
+  "title": "Cài Đặt Hệ Thống",
+  "nickname": "Biệt danh",
+  "role": "Vai trò",
+  "darkMode": "Giao diện tối",
+  "darkModeTooltip": "Chuyển đổi giữa chế độ giao diện Sáng / Tối.",
+  "save": "Lưu thay đổi",
+  "updated": "Đã cập nhật thông tin thành công.",
+  "roleOptions": {
+    "admin": "Quản trị viên hệ thống",
+    "operator": "Người vận hành",
+    "guest": "Khách"
+  },
+  "validation": {
+    "nicknameRequired": "Vui lòng nhập biệt danh",
+    "roleRequired": "Vui lòng chọn vai trò"
+  }
+}

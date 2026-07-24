@@ -68,7 +68,12 @@ def build_default_text_llm_sync(
     if base_url:
         kwargs.setdefault("base_url", base_url)
 
-    if not thinking:
+    # Only inject "enable_thinking" for providers that actually support it (Qwen/DeepSeek/Alibaba).
+    # Sending this field to Gemini or OpenAI causes HTTP 400 "Unknown name" errors.
+    _THINKING_PROVIDER_KEYWORDS = ("qwen", "deepseek", "bailian", "aliyun", "dashscope", "tongyi")
+    provider_name_lower = (provider.name or "").lower()
+    provider_supports_thinking = any(kw in provider_name_lower for kw in _THINKING_PROVIDER_KEYWORDS)
+    if not thinking and provider_supports_thinking:
         extra_body = dict(kwargs.get("extra_body") or {})
         extra_body["enable_thinking"] = False
         kwargs["extra_body"] = extra_body

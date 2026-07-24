@@ -1,0 +1,21 @@
+{
+  "title": "Jellyfish",
+  "subtitle": "Studio Phim Ngắn AI",
+  "welcome": "Chào mừng đến với Jellyfish",
+  "menu": {
+    "projects": "Danh sách dự án",
+    "assets": "Quản lý tài nguyên",
+    "prompts": "Mẫu Prompt",
+    "models": "Quản lý Model",
+    "settings": "Cài đặt hệ thống"
+  },
+  "user": {
+    "profile": "Trang cá nhân",
+    "logout": "Đăng xuất"
+  },
+  "lang": {
+    "vi": "Tiếng Việt",
+    "zh": "简体中文",
+    "en": "English"
+  }
+}

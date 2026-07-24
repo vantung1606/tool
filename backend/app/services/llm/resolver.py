@@ -146,6 +146,15 @@ async def build_default_text_llm(
     )
 
 
+# Providers that support the "enable_thinking" extra-body parameter.
+# Gemini, OpenAI, and other providers do NOT support it and will return 400.
+_PROVIDERS_WITH_THINKING_PARAM: frozenset[str] = frozenset({
+    "aliyun_bailian",  # Qwen / DashScope / Alibaba
+    "deepseek",
+    "qwen",
+})
+
+
 def _build_chat_openai_model(
     *,
     provider: Provider,
@@ -177,7 +186,12 @@ def _build_chat_openai_model(
     if base_url:
         kwargs.setdefault("base_url", base_url)
 
-    if not thinking:
+    # Only inject "enable_thinking" for providers that actually support it (Qwen/DeepSeek/Alibaba).
+    # Sending this field to Gemini or OpenAI causes HTTP 400 "Unknown name" errors.
+    _THINKING_PROVIDER_KEYWORDS = ("qwen", "deepseek", "bailian", "aliyun", "dashscope", "tongyi")
+    provider_name_lower = (provider.name or "").lower()
+    provider_supports_thinking = any(kw in provider_name_lower for kw in _THINKING_PROVIDER_KEYWORDS)
+    if not thinking and provider_supports_thinking:
         extra_body = dict(kwargs.get("extra_body") or {})
         extra_body["enable_thinking"] = False
         kwargs["extra_body"] = extra_body

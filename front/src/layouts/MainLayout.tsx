@@ -46,19 +46,19 @@ const MainLayout: React.FC = () => {
     if (path.length === 0) return [{ title: t('title') }]
     const items: { title: React.ReactNode; key: string }[] = []
     const pathLabels: Record<string, string> = {
-      projects: '项目列表',
-      assets: '资产管理',
-      prompts: '提示词模板',
-      files: '文件管理',
-      agents: 'Agent管理',
-      models: '模型管理',
+      projects: 'Danh sách dự án',
+      assets: 'Quản lý tài nguyên',
+      prompts: 'Mẫu Prompt',
+      files: 'Quản lý tệp',
+      agents: 'Quản lý Agent',
+      models: 'Quản lý Model',
       settings: t('menu.settings'),
-      chapters: '章节管理',
-      studio: '分镜工作室',
-      prep: '章节编辑',
-      shots: '分镜',
-      editor: '视频剪辑',
-      edit: '编辑',
+      chapters: 'Quản lý chương',
+      studio: 'Studio phân cảnh',
+      prep: 'Chỉnh sửa chương',
+      shots: 'Phân cảnh',
+      editor: 'Dựng video',
+      edit: 'Chỉnh sửa',
     }
     path.forEach((segment, i) => {
       // 特殊：/projects/:projectId/chapters/:chapterId/* 中的 chapterId 段不展示（避免出现“章节”这一层）
@@ -87,8 +87,8 @@ const MainLayout: React.FC = () => {
       const isLast = i === path.length - 1
       let label = pathLabels[segment]
       if (label === undefined) {
-        if (path[0] === 'projects' && i === 1) label = '项目工作台'
-        else if (path[2] === 'chapters' && i === 3) label = '章节'
+        if (path[0] === 'projects' && i === 1) label = 'Workspace Dự án'
+        else if (path[2] === 'chapters' && i === 3) label = 'Chương'
         else label = segment
       }
       items.push({
@@ -103,22 +103,22 @@ const MainLayout: React.FC = () => {
     {
       key: 'projects',
       icon: <FolderOutlined />,
-      label: <Link to="/projects">项目列表</Link>,
+      label: <Link to="/projects">Danh sách dự án</Link>,
     },
     {
       key: 'assets',
       icon: <PictureOutlined />,
-      label: <Link to="/assets">资产管理</Link>,
+      label: <Link to="/assets">Quản lý tài nguyên</Link>,
     },
     {
       key: 'prompts',
       icon: <FileTextOutlined />,
-      label: <Link to="/prompts">提示词模板</Link>,
+      label: <Link to="/prompts">Mẫu Prompt</Link>,
     },
     {
       key: 'models',
       icon: <ApiOutlined />,
-      label: <Link to="/models">模型管理</Link>,
+      label: <Link to="/models">Quản lý Model</Link>,
     },
     {
       key: 'settings',
@@ -233,8 +233,9 @@ const MainLayout: React.FC = () => {
                 document.documentElement.lang = value === 'en-US' ? 'en' : 'zh-CN'
               }}
               options={[
-                { label: t('lang.zh'), value: 'zh-CN' },
-                { label: t('lang.en'), value: 'en-US' },
+                { label: 'Tiếng Việt', value: 'vi-VN' },
+                { label: t('lang.en', 'English'), value: 'en-US' },
+                { label: t('lang.zh', '简体中文'), value: 'zh-CN' },
               ]}
             />
 

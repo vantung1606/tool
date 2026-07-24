@@ -79,9 +79,14 @@ def get_provider_spec(provider_key: str) -> ProviderSpec:
     with _LOCK:
         spec = _SPECS_BY_KEY.get(key)
     if spec is None:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail=f"Unsupported provider key: {provider_key!r}",
+        return ProviderSpec(
+            key=key,
+            display_name=provider_key,
+            aliases={key},
+            supported_categories={ModelCategoryKey.text, ModelCategoryKey.image, ModelCategoryKey.video},
+            default_base_url="",
+            requires_api_key=True,
+            requires_api_secret=False,
         )
     return spec
 
@@ -95,10 +100,9 @@ def resolve_provider_key_from_name(name: str) -> str:
     # 兼容历史“包含式”命名（如 Doubao Video / bytedance-xxx）。
     if "volc" in alias or "doubao" in alias or "bytedance" in alias:
         return "volcengine"
-    raise HTTPException(
-        status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-        detail=f"Unsupported provider name: {name!r}",
-    )
+    if "ali" in alias or "bailian" in alias or "qwen" in alias or "tongyi" in alias:
+        return "aliyun_bailian"
+    return alias or "openai"
 
 
 def is_provider_category_supported(provider_key: str, category: ModelCategoryKey) -> bool:

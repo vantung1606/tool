@@ -68,9 +68,18 @@ def resolve_video_capability(*, provider: ProviderKey, model: str | None) -> Vid
         from app.core.integrations.openai.video_capabilities import resolve_openai_video_capability
 
         return resolve_openai_video_capability(model)
-    from app.core.integrations.volcengine.video_capabilities import resolve_volcengine_video_capability
+    if provider == "volcengine":
+        from app.core.integrations.volcengine.video_capabilities import resolve_volcengine_video_capability
 
-    return resolve_volcengine_video_capability(model)
+        return resolve_volcengine_video_capability(model)
+
+    return VideoModelCapability(
+        supports_seed=True,
+        supports_watermark=True,
+        allowed_ratios={"16:9", "9:16", "1:1", "4:3", "3:4"},
+        default_ratio="16:9",
+        ratio_to_size_mapping=DEFAULT_RATIO_TO_SIZE_MAPPING,
+    )
 
 
 def resolve_effective_ratio(input_: VideoGenerationInput) -> str | None:

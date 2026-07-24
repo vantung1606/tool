@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { ConfigProvider } from 'antd'
+import { ConfigProvider, App as AntdApp } from 'antd'
 import zhCN from 'antd/locale/zh_CN'
 import enUS from 'antd/locale/en_US'
 import App from './App.tsx'
@@ -24,7 +24,9 @@ const RootApp: React.FC = () => {
         },
       }}
     >
-      <App />
+      <AntdApp style={{ height: '100%' }}>
+        <App />
+      </AntdApp>
     </ConfigProvider>
   )
 }

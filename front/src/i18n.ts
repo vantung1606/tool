@@ -1,6 +1,10 @@
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
+import viLayout from './locales/vi-VN/layout.json'
+import viCommon from './locales/vi-VN/common.json'
+import viSettings from './locales/vi-VN/settings.json'
+import viNotFound from './locales/vi-VN/notFound.json'
 import zhLayout from './locales/zh-CN/layout.json'
 import zhCommon from './locales/zh-CN/common.json'
 import zhSettings from './locales/zh-CN/settings.json'
@@ -10,20 +14,26 @@ import enCommon from './locales/en-US/common.json'
 import enSettings from './locales/en-US/settings.json'
 import enNotFound from './locales/en-US/notFound.json'
 
-export type SupportedLanguage = 'zh-CN' | 'en-US'
+export type SupportedLanguage = 'vi-VN' | 'en-US' | 'zh-CN'
 
 const resources = {
-  'zh-CN': {
-    common: zhCommon,
-    layout: zhLayout,
-    settings: zhSettings,
-    notFound: zhNotFound,
+  'vi-VN': {
+    common: viCommon,
+    layout: viLayout,
+    settings: viSettings,
+    notFound: viNotFound,
   },
   'en-US': {
     common: enCommon,
     layout: enLayout,
     settings: enSettings,
     notFound: enNotFound,
+  },
+  'zh-CN': {
+    common: zhCommon,
+    layout: zhLayout,
+    settings: zhSettings,
+    notFound: zhNotFound,
   },
 }
 
@@ -32,8 +42,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'zh-CN',
-    supportedLngs: ['zh-CN', 'en-US'],
+    fallbackLng: 'vi-VN',
+    supportedLngs: ['vi-VN', 'en-US', 'zh-CN'],
     ns: ['common', 'layout', 'settings', 'notFound'],
     defaultNS: 'layout',
     interpolation: {

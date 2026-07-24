@@ -30,14 +30,26 @@ def _record_executor_dispatch(task_id: str, *, executor_type: str, executor_task
         db.commit()
 
 
-def enqueue_task_execution(task_id: str) -> AsyncResult:
-    async_result = run_task_celery.delay(task_id)
-    _record_executor_dispatch(
-        task_id,
-        executor_type="celery",
-        executor_task_id=async_result.id,
-    )
-    return async_result
+def enqueue_task_execution(task_id: str) -> AsyncResult | None:
+    try:
+        async_result = run_task_celery.delay(task_id)
+        _record_executor_dispatch(
+            task_id,
+            executor_type="celery",
+            executor_task_id=async_result.id,
+        )
+        return async_result
+    except Exception as exc:
+        logger.warning("Celery dispatch failed (%s), falling back to background thread for task %s", exc, task_id)
+        import threading
+        thread = threading.Thread(target=run_task_celery, args=(task_id,), daemon=True)
+        thread.start()
+        _record_executor_dispatch(
+            task_id,
+            executor_type="thread",
+            executor_task_id=f"thread-{task_id}",
+        )
+        return None
 
 
 def revoke_task_execution(task_id: str, *, terminate: bool = True, signal: str = "SIGTERM") -> bool:
